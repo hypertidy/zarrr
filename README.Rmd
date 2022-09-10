@@ -27,13 +27,51 @@ WIP
 
 This reads a slice from a zarr file via xarray, orients from xarray/numpy to R and plots with an extent (using raster/GDAL data orientation assumption). 
 
-All hardcoded for now, use `read_zarr()` to read a slice from the 3rd dim - use `read_zarr_raw()` to get an entire array by name. 
-
 Example and inspiration take from this really excellent aggregation example by Ryan Abernathy. I'm using this to demonstrate a similar approach in R, for me to learn python and explore ideas. 
 
 https://discourse.pangeo.io/t/conservative-region-aggregation-with-xarray-geopandas-and-sparse/2715
 
+To open the Zarr source do 
+
+```{r xarray_zarr}
+library(zarrr)
+store <- "https://ncsa.osn.xsede.org/Pangeo/pangeo-forge/gpcp-feedstock/gpcp.zarr"
+z <- xarray_zarr(store)
+```
+
+We can now use the xarray facilities. 
+
+```{r xarray}
+## get coordinate bounds and a data slice
+xc <- z$lon_bounds$values
+yc <- z$lat_bounds$values
+
+library(reticulate)  ## for dict()
+shape <- z$precip$shape
+#
+precip0 <- z$precip$isel(dict(time = 0L))$values
+precipn <- z$precip$isel(dict(time = as.integer(shape[[1]] - 1)))$values
+library(ximage)
+ex <- c(range(xc), range(yc))  ## these are regular grid
+par(mfrow  = c(2, 1), mar = rep(0, 4))
+cols <- hcl.colors(128)
+zlim <- z$precip$valid_range
+ximage(precip0, col = cols, zlim = zlim, asp = 1, extent = ex); maps::map('world2', add = TRUE, col = "white")
+ximage(precipn, col = cols, zlim = zlim, asp = 1, extent = ex); maps::map('world2', add = TRUE, col = "white")
+
+```
+
+In zarrr we have a global 'xarray' object, that is equivalent to 'xr' in `python import xarray as xr`. 'xarray_zarr()' in this
+package is just a helper for the following python-equiv code. 
 
 ```{r example}
-source("read_zarr.R", echo = TRUE)
+library(zarrr)
+store <- "https://ncsa.osn.xsede.org/Pangeo/pangeo-forge/gpcp-feedstock/gpcp.zarr"
+zarrr:::xarray$open_dataset(store, engine = 'zarr', chunks = dict())
 ```
+
+---
+
+## Code of Conduct
+  
+Please note that the zarrr project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

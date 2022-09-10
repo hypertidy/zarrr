@@ -3,3 +3,4 @@
 ^.Rhistory$
 ^.*html$
 ^README\.Rmd$
+^CODE_OF_CONDUCT\.md$

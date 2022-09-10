@@ -10,3 +10,6 @@ def read_zarr_raw(x, array):
   x = ds[array]
   return x.to_numpy()
 
+def xarray_zarr(x):
+  ds = xr.open_dataset(x, engine = 'zarr', chunks = {})
+  return ds
