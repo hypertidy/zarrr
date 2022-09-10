@@ -6,6 +6,11 @@ editor: visual
 
 ## python
 
+Just a plot in python to make sure I'm interpreting orientation correctly in R. 
+
+We need quarto else I can't actually render the matplotlib object in rstudio. 
+
+
 ```{python}
 src = 'https://ncsa.osn.xsede.org/Pangeo/pangeo-forge/gpcp-feedstock/gpcp.zarr'
 import xarray as xr

@@ -4,3 +4,9 @@ def read_zarr(x, array, slice = 1):
  x = ds[array][:slice,:,:]
  return x.to_numpy()
 
+
+def read_zarr_raw(x, array):
+  ds = xr.open_dataset(x, engine = 'zarr', chunks = {})
+  x = ds[array]
+  return x.to_numpy()
+

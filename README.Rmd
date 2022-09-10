@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# zarrr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of zarrr is to ... learn xarray and python and read Zarr in R. 
+
+WIP
+
+
+## Example
+
+This reads a slice from a zarr file via xarray, orients from xarray/numpy to R and plots with an extent (using raster/GDAL data orientation assumption). 
+
+All hardcoded for now, use `read_zarr()` to read a slice from the 3rd dim - use `read_zarr_raw()` to get an entire array by name. 
+
+Example and inspiration take from this really excellent aggregation example by Ryan Abernathy. I'm using this to demonstrate a similar approach in R, for me to learn python and explore ideas. 
+
+https://discourse.pangeo.io/t/conservative-region-aggregation-with-xarray-geopandas-and-sparse/2715
+
+
+```{r example}
+source("read_zarr.R", echo = TRUE)
+```
